@@ -1,0 +1,37 @@
+{
+    "questname": "dv quest",
+    "subquests": [
+        {
+            "questname": "The Welcoming!",
+            "steps": [
+                {
+                    "type": "dialog",
+                    "dialog": [
+                        {
+                            "text": "Welcome to this Text Adventure",
+                            "choice": "false"
+                        },
+                        {
+                            "text": "Are you excited?",
+                            "choice": "true",
+                            "choices": {
+                                "yes": "Thats grait!",
+                                "no": "Aw thats too bad"
+                            }
+
+                        }
+                    ]
+                },
+                {
+                    "type": "battle"
+                }
+            ]
+        },
+        {
+            "questname": "dev subquest 2"
+        },
+        {
+            "questname": "dev subquest 3"
+        }
+    ]
+}
