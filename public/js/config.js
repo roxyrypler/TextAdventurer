@@ -3,5 +3,6 @@ const DEVENV = {
 }
 
 export default {
-    server: DEVENV
+    server: DEVENV,
+    version: "v0.0.1"
 }
