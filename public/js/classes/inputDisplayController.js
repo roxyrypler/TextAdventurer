@@ -1,5 +1,7 @@
 import TextDisplay from "./textDisplay.js";
 import TextInput from "./textInput.js";
+import GameState from "../modules/gamestate.js";
+import commandContexts from "../data/commandContext.js";
 
 export default class InputDisplayController {
     constructor() {
@@ -30,17 +32,37 @@ export default class InputDisplayController {
 
     validateInput(value) {
         if (value.length === 0) return;
-        
+
         this.parseInput(value);
     }
 
     parseInput(value) {
         console.log(value);
-        // TODO: refer to state / context for command parsing. Need to make
+        let context = {};
 
-        if (value === "1") {
-            console.log("start game");
+        switch (GameState.state) {
+            case GameState.states.MAINMENU:
+                context = commandContexts.mainMenuCommands;
+                break;
+            case GameState.states.PLAY:
+                context = commandContexts.playCommands;
+                break;
+
+            default:
+                console.log("Sorry i did not understand");
+                break;
         }
+
+        // Check default commands
+        for (const key in context.defaults) {
+            if (value.toLowerCase() === key) context.defaults[key]();
+        }
+
+        // Check context commands
+        for (const key in context) {
+            if (value.toLowerCase() === key) context[key]();
+        }
+
         this.display.createUserEntry(value);
     }
 }

@@ -12,13 +12,13 @@ let data = {
             text: "------------------------"
         },
         {
-            text: "1 - Start New Game"
+            text: "[1] - Start New Game"
         },
         {
-            text: "2 - Continue"
+            text: "[2] - Continue"
         },
         {
-            text: "3 - Exit Game"
+            text: "[3] - Exit Game"
         },
         {
             text: "------------------------"
