@@ -6,6 +6,7 @@ import commandDefaults from "./data/standardCommands.js";
 import commandContexts from "./data/commandContext.js";
 import StoryIndex from "./data/storyindex.js";
 import theme from "./data/themes.js";
+import enemyIndex from "./data/enemys/enemyindex.js";
 
 let inputDisplayController;
 
@@ -27,6 +28,9 @@ function SetState(state) {
             break;
         case GameState.states.PLAY:
             onPlay();
+            break;
+        case GameState.states.BATTLE:
+            onBattle();
             break;
     }
 }
@@ -53,10 +57,68 @@ function onMainMenu() {
 }
 
 function onPlay() {
-    inputDisplayController.display.clearWindow();
     console.log("started playing");
+    inputDisplayController.display.clearWindow();
     ProgressStory();
 
+}
+
+function onBattle() {
+    console.log("A Battle has started");
+    inputDisplayController.display.clearWindow();
+    inputDisplayController.display.addToQueue("Battle has started", theme.textColor.golden);
+
+    let creature = JSON.parse(JSON.stringify(enemyIndex[0].creature)); // Making a copy from "catalog" of enemys
+    // TODO: Set appropriate level, health and damage on attacks based on player stats
+
+    inputDisplayController.display.addToQueue(`creature ${creature.name}, level ${creature.level} has appeard!`, theme.textColor.golden);
+
+    inputDisplayController.display.handleQueue();
+
+    let turnCounter = 0;
+
+    let battleInterval = setInterval(() => {
+        if (GameState.player.health <= 0) {
+            console.log("You lost the battle");
+
+        } else if (creature.health <= 0) {
+            console.log("You won the battle");
+            inputDisplayController.display.addToQueue(`I won the battle!`, theme.textColor.golden);
+            inputDisplayController.display.handleQueue();
+            clearInterval(battleInterval);
+        } else {
+            ProgressBattle(turnCounter % 2 == 0, creature);
+            turnCounter++;
+        }
+    }, 2000);
+}
+
+function ProgressBattle(turnbool, creature) {
+    let getPlayerAttack = GameState.player.attacks[0]; // TODO: make get random attack?
+    let getenemyAttack = creature.attacks[0]; // TODO: make get random attacks
+
+    if (turnbool) { // players turn
+        inputDisplayController.display.addToQueue(`You attacked with ${getPlayerAttack.name}`, theme.textColor.white);
+        inputDisplayController.display.addToQueue(`You dealt ${getPlayerAttack.damage}dmg to ${creature.name}`, theme.textColor.white);
+        creature.health -= getPlayerAttack.damage;
+        if (creature.health < 0) {
+            creature.health = 0;
+        }
+        inputDisplayController.display.addToQueue(`The creature have ${creature.health}hp left`, theme.textColor.white);
+
+        inputDisplayController.display.handleQueue();
+
+    } else { // enemys turn
+        inputDisplayController.display.addToQueue(`Enemy used ${getenemyAttack.name} dealing ${getenemyAttack.damage}dmg to me`, theme.textColor.red);
+        GameState.player.health -= getenemyAttack.damage;
+        if (GameState.player.health < 0) {
+            GameState.player.health = 0;
+        }
+        inputDisplayController.display.addToQueue(`i have ${GameState.player.health}hp left`, theme.textColor.white);
+
+        inputDisplayController.display.handleQueue();
+    }
+    console.log("Battling", turnbool);
 }
 
 function ProgressStory() {
@@ -121,7 +183,7 @@ function CommandCallbacks() {
             if (key != "defaults") {
                 if (descriptions != null) {
                     output.push(`[${key}] - ${descriptions[key]}`);
-                }else {
+                } else {
                     output.push(`[${key}]`);
                 }
             }
@@ -155,6 +217,18 @@ function CommandCallbacks() {
     commandContexts.mainMenuCommands[1] = () => {
         setTimeout(() => {
             SetState(GameState.states.PLAY);
+        }, 500);
+    }
+
+    commandContexts.mainMenuCommands[2] = () => {
+        setTimeout(() => {
+            SetState(GameState.states.BATTLE);
+        }, 500);
+    }
+
+    commandContexts.mainMenuCommands[3] = () => {
+        setTimeout(() => {
+            SetState(GameState.states.MAINMENU);
         }, 500);
     }
 }

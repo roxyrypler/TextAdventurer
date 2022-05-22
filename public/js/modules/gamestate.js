@@ -2,7 +2,8 @@ export default {
     states: {
         INIT: 0,
         MAINMENU: 1,
-        PLAY: 2
+        PLAY: 2,
+        BATTLE: 3
     },
     state: null,
     player: {
@@ -15,6 +16,12 @@ export default {
         progress: {
             currentStoryID: 1,
             step: 1
-        }
+        },
+        attacks: [
+            {
+                name: "attack",
+                damage: 15
+            }
+        ]
     }
 }
