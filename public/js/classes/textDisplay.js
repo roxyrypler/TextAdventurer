@@ -19,11 +19,14 @@ export default class TextDisplay {
                 this.createUserEntry(this.Queue[0]);
                 this.Queue.splice(0, 1);
                 this.handleQueue();
+
+                ref.TextAreaBox.scrollTop = ref.TextAreaBox.scrollHeight;
             }else {
                 this.isQueueBusy = false;
                 ref.textInput.disabled = false;
+                ref.textInput.focus();
             }
-        }, 500);
+        }, 200);
 
     }
 

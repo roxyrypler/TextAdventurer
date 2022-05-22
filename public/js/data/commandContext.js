@@ -7,11 +7,18 @@ let mainMenuCommands = {
     3: null
 }
 
+let mainMenuCommandsDescriptions = {
+    1: "Start new Game",
+    2: "Continue",
+    3: "Exit Game"
+}
+
 let playCommands = {
     defaults: defaultCommands.commands
 }
 
 export default {
     mainMenuCommands,
+    mainMenuCommandsDescriptions,
     playCommands
 }

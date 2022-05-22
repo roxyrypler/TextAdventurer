@@ -4,7 +4,7 @@ import InputDisplayController from "./classes/inputDisplayController.js";
 import MainMenuData from "./data/mainMenu.js";
 import commandDefaults from "./data/standardCommands.js";
 import commandContexts from "./data/commandContext.js";
-import gamestate from "./modules/gamestate.js";
+import StoryIndex from "./data/storyindex.js";
 
 let inputDisplayController;
 
@@ -55,6 +55,41 @@ function onMainMenu() {
 function onPlay() {
     inputDisplayController.display.clearWindow();
     console.log("started playing");
+    ProgressStory();
+
+}
+
+function ProgressStory() {
+    // TODO: Get story and step id from savegame.
+    let Story = GameState.player.progress.currentStoryID;
+    let StoryStep = GameState.player.progress.step;
+
+    StoryIndex.forEach((s) => {
+        if (s.id == Story) {
+            s.steps.forEach((step) => {
+                if (step.step == StoryStep) {
+                    step.dialog.forEach((d) => {
+                        inputDisplayController.display.addToQueue(d.text);
+                        if (d.choices) {
+                            for (const key in d.choices) {
+                                commandContexts.playCommands[`${key}`] = d.choices[key];
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    });
+    inputDisplayController.display.handleQueue();
+
+    console.log("GameState: ", GameState);
+}
+
+function OnAction() {
+    ProgressStory();
+    commandContexts.playCommands = {
+        defaults: commandDefaults.commands
+    }
 }
 
 /* ------------------------------------ Handle option callbacks ----------------------------------------------------- */
@@ -62,10 +97,12 @@ function onPlay() {
 function CommandCallbacks() {
     commandDefaults.commands.help = () => {
         let output = [];
-        let context;
+        let context = null;
+        let descriptions = null;
         switch (GameState.state) {
             case GameState.states.MAINMENU:
                 context = commandContexts.mainMenuCommands;
+                descriptions = commandContexts.mainMenuCommandsDescriptions;
                 break;
             case GameState.states.PLAY:
                 context = commandContexts.playCommands
@@ -73,11 +110,15 @@ function CommandCallbacks() {
         }
 
         for (const key in context.defaults) {
-            output.push(key);
+            output.push(`[${key}] - ${commandDefaults.descriptions[key]}`);
         }
         for (const key in context) {
             if (key != "defaults") {
-                output.push(key);
+                if (descriptions != null) {
+                    output.push(`[${key}] - ${descriptions[key]}`);
+                }else {
+                    output.push(`[${key}]`);
+                }
             }
         }
 
@@ -86,7 +127,6 @@ function CommandCallbacks() {
             inputDisplayController.display.addToQueue(i);
         });
         inputDisplayController.display.handleQueue();
-        console.log(output);
     }
 
     commandDefaults.commands.exit = () => {
@@ -95,9 +135,25 @@ function CommandCallbacks() {
         }, 500);
     }
 
+    commandDefaults.commands.clear = () => {
+        setTimeout(() => {
+            inputDisplayController.display.clearWindow();
+        }, 500);
+    }
+
+    commandDefaults.commands.cls = () => {
+        setTimeout(() => {
+            inputDisplayController.display.clearWindow();
+        }, 500);
+    }
+
     commandContexts.mainMenuCommands[1] = () => {
         setTimeout(() => {
             SetState(GameState.states.PLAY);
         }, 500);
     }
+}
+
+export default {
+    OnAction
 }

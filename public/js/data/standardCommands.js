@@ -1,15 +1,19 @@
 
 let commands = {
-    exit: {
-        q: "Are you sure you want to quit?",
-        choices: {
-            yes: null,
-            no: null
-        }
-    },
-    help: null
+    exit: null,
+    help: null,
+    clear: null,
+    cls: null
+}
+
+let descriptions = {
+    exit: "Go to main menu.",
+    help: "Will show all available commands.",
+    clear: "Clear log",
+    cls: "Clear log"
 }
 
 export default {
-    commands
+    commands,
+    descriptions
 }
