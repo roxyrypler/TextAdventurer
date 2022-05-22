@@ -37,7 +37,23 @@ let Story = {
             step: 2,
             dialog: [
                 {
-                    text: "Awesome"
+                    text: "Awesome",
+                },
+                {
+                    text: "Shall we train you in the arts of combat?"
+                },
+                {
+                    text: "[yes] or [no]",
+                    choices: {
+                        yes: () => { 
+                            GameState.player.progress.step = 4;
+                            index.OnAction();
+                        },
+                        no: () => {
+                            GameState.player.progress.step = 5;
+                            index.OnAction();
+                        }
+                    }
                 }
             ]
         },
@@ -46,8 +62,39 @@ let Story = {
             dialog: [
                 {
                     text: "nvm then :("
+                },
+                {
+                    text: "Exiting..."
                 }
-            ]
+            ],
+            action: () => {
+                setTimeout(() => {
+                    GameState.player.progress.step = 1;
+                    index.SetState(GameState.states.MAINMENU);
+                }, 1000);
+            }
+        },
+        {
+            step: 4,
+            dialog: [
+                {
+                    text: "Lets start a battle"
+                }
+            ],
+            action: () => {
+                console.log("Start a battle");
+            }
+        },
+        {
+            step: 5,
+            dialog: [
+                {
+                    text: "hmm i guess you have plaid before then."
+                }
+            ],
+            action: () => {
+                console.log("Continue story");
+            }
         }
     ]
 }

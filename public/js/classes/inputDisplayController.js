@@ -2,6 +2,7 @@ import TextDisplay from "./textDisplay.js";
 import TextInput from "./textInput.js";
 import GameState from "../modules/gamestate.js";
 import commandContexts from "../data/commandContext.js";
+import theme from "../data/themes.js";
 
 export default class InputDisplayController {
     constructor() {
@@ -63,6 +64,9 @@ export default class InputDisplayController {
             if (value.toLowerCase() === key) context[key]();
         }
 
-        this.display.createUserEntry(value);
+        this.display.createUserEntry({
+            line: value,
+            color: theme.textColor.white
+        });
     }
 }

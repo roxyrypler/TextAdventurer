@@ -5,6 +5,7 @@ import MainMenuData from "./data/mainMenu.js";
 import commandDefaults from "./data/standardCommands.js";
 import commandContexts from "./data/commandContext.js";
 import StoryIndex from "./data/storyindex.js";
+import theme from "./data/themes.js";
 
 let inputDisplayController;
 
@@ -43,10 +44,9 @@ function onInit() {
 
 function onMainMenu() {
     console.log("STATE - MAINMENU");
-    console.log(MainMenuData);
     inputDisplayController.display.clearWindow();
     MainMenuData.data.entries.forEach((i) => {
-        inputDisplayController.display.addToQueue(i.text);
+        inputDisplayController.display.addToQueue(i.text, theme.textColor.purple);
     });
 
     inputDisplayController.display.handleQueue(); // run this after handling all text to be displayed
@@ -64,32 +64,37 @@ function ProgressStory() {
     let Story = GameState.player.progress.currentStoryID;
     let StoryStep = GameState.player.progress.step;
 
-    StoryIndex.forEach((s) => {
-        if (s.id == Story) {
-            s.steps.forEach((step) => {
-                if (step.step == StoryStep) {
-                    step.dialog.forEach((d) => {
-                        inputDisplayController.display.addToQueue(d.text);
-                        if (d.choices) {
-                            for (const key in d.choices) {
-                                commandContexts.playCommands[`${key}`] = d.choices[key];
-                            }
-                        }
-                    });
-                }
-            });
-        }
-    });
-    inputDisplayController.display.handleQueue();
+    commandContexts.playCommands = {};
+    commandContexts.playCommands.defaults = commandDefaults.commands;
 
-    console.log("GameState: ", GameState);
+    setTimeout(() => {
+        StoryIndex.forEach((s) => {
+            if (s.id == Story) {
+                s.steps.forEach((step) => {
+                    if (step.step == StoryStep) {
+                        step.dialog.forEach((d) => {
+                            inputDisplayController.display.addToQueue(d.text, theme.textColor.white);
+                            if (d.choices) {
+                                for (let key in d.choices) {
+                                    commandContexts.playCommands[`${key}`] = d.choices[key];
+                                }
+                            }
+                        });
+                        if (step.action) {
+                            setTimeout(() => {
+                                step.action();
+                            }, 1000);
+                        }
+                    }
+                });
+            }
+        });
+        inputDisplayController.display.handleQueue();
+    }, 50);
 }
 
 function OnAction() {
     ProgressStory();
-    commandContexts.playCommands = {
-        defaults: commandDefaults.commands
-    }
 }
 
 /* ------------------------------------ Handle option callbacks ----------------------------------------------------- */
@@ -122,9 +127,9 @@ function CommandCallbacks() {
             }
         }
 
-        inputDisplayController.display.addToQueue("Available Commands:");
+        inputDisplayController.display.addToQueue("Available Commands:", theme.textColor.golden);
         output.forEach((i) => {
-            inputDisplayController.display.addToQueue(i);
+            inputDisplayController.display.addToQueue(i, theme.textColor.purple);
         });
         inputDisplayController.display.handleQueue();
     }
@@ -155,5 +160,6 @@ function CommandCallbacks() {
 }
 
 export default {
-    OnAction
+    OnAction,
+    SetState
 }

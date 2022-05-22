@@ -7,8 +7,11 @@ export default class TextDisplay {
         this.Queue = [];
     }
 
-    addToQueue(line) {
-        this.Queue.push(line);
+    addToQueue(line, color) {
+        this.Queue.push({
+            line,
+            color
+        });
     }
     
     handleQueue() {
@@ -32,8 +35,9 @@ export default class TextDisplay {
 
     createUserEntry(data) {
         let p = document.createElement("p");
-        p.innerHTML = `> ${data.toString()}`;
+        p.innerHTML = `> ${data.line?.toString()}`;
         p.className = "animatedText";
+        p.style.color = data.color;
 
         ref.TextAreaBox.appendChild(p);
     }

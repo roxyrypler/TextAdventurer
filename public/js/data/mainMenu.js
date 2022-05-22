@@ -15,10 +15,7 @@ let data = {
             text: "[1] - Start New Game"
         },
         {
-            text: "[2] - Continue"
-        },
-        {
-            text: "[3] - Exit Game"
+            text: "[2] - Exit Game"
         },
         {
             text: "------------------------"
