@@ -83,6 +83,8 @@ let Story = {
             ],
             action: () => {
                 console.log("Start a battle");
+                GameState.player.progress.step = 6;
+                index.onBattle(true);
             }
         },
         {
@@ -90,6 +92,17 @@ let Story = {
             dialog: [
                 {
                     text: "hmm i guess you have plaid before then."
+                }
+            ],
+            action: () => {
+                console.log("Continue story");
+            }
+        },
+        {
+            step: 6,
+            dialog: [
+                {
+                    text: "Hurrayy! you won the battle!"
                 }
             ],
             action: () => {

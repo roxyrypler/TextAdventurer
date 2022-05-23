@@ -4,7 +4,7 @@ import InputDisplayController from "./classes/inputDisplayController.js";
 import MainMenuData from "./data/mainMenu.js";
 import commandDefaults from "./data/standardCommands.js";
 import commandContexts from "./data/commandContext.js";
-import StoryIndex from "./data/storyindex.js";
+import StoryIndex from "./data/storylines/storyindex.js";
 import theme from "./data/themes.js";
 import enemyIndex from "./data/enemys/enemyindex.js";
 
@@ -63,8 +63,11 @@ function onPlay() {
 
 }
 
-function onBattle() {
+function onBattle(startedFromStory) {
     console.log("A Battle has started");
+    commandContexts.playCommands = {};
+    commandContexts.playCommands.defaults = commandDefaults.commands;
+
     inputDisplayController.display.clearWindow();
     inputDisplayController.display.addToQueue("Battle has started", theme.textColor.golden);
 
@@ -86,6 +89,9 @@ function onBattle() {
             inputDisplayController.display.addToQueue(`I won the battle!`, theme.textColor.golden);
             inputDisplayController.display.handleQueue();
             clearInterval(battleInterval);
+            if (startedFromStory) {
+                ProgressStory();
+            }
         } else {
             ProgressBattle(turnCounter % 2 == 0, creature);
             turnCounter++;
@@ -94,17 +100,19 @@ function onBattle() {
 }
 
 function ProgressBattle(turnbool, creature) {
+    inputDisplayController.display.clearWindow();
+
     let getPlayerAttack = GameState.player.attacks[0]; // TODO: make get random attack?
     let getenemyAttack = creature.attacks[0]; // TODO: make get random attacks
 
     if (turnbool) { // players turn
         inputDisplayController.display.addToQueue(`You attacked with ${getPlayerAttack.name}`, theme.textColor.white);
-        inputDisplayController.display.addToQueue(`You dealt ${getPlayerAttack.damage}dmg to ${creature.name}`, theme.textColor.white);
+        inputDisplayController.display.addToQueue(`You dealt ${getPlayerAttack.damage}dmg to ${creature.name}`, theme.textColor.golden);
         creature.health -= getPlayerAttack.damage;
         if (creature.health < 0) {
             creature.health = 0;
         }
-        inputDisplayController.display.addToQueue(`The creature have ${creature.health}hp left`, theme.textColor.white);
+        inputDisplayController.display.addToQueue(`The creature have ${creature.health}hp left`, theme.textColor.purple);
 
         inputDisplayController.display.handleQueue();
 
@@ -114,11 +122,10 @@ function ProgressBattle(turnbool, creature) {
         if (GameState.player.health < 0) {
             GameState.player.health = 0;
         }
-        inputDisplayController.display.addToQueue(`i have ${GameState.player.health}hp left`, theme.textColor.white);
+        inputDisplayController.display.addToQueue(`i have ${GameState.player.health}hp left`, theme.textColor.golden);
 
         inputDisplayController.display.handleQueue();
     }
-    console.log("Battling", turnbool);
 }
 
 function ProgressStory() {
@@ -173,6 +180,9 @@ function CommandCallbacks() {
                 break;
             case GameState.states.PLAY:
                 context = commandContexts.playCommands
+                break;
+            case GameState.states.BATTLE:
+                context = commandContexts.playCommands; // May change these to battle commands later
                 break;
         }
 
@@ -235,5 +245,6 @@ function CommandCallbacks() {
 
 export default {
     OnAction,
+    onBattle,
     SetState
 }
