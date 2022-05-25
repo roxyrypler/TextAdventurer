@@ -15,7 +15,9 @@ export default {
         maxEXP: 100,
         progress: {
             currentStoryID: 1,
-            step: 1
+            step: 1,
+            locationID: 0,
+            worldID: 0
         },
         attacks: [
             {

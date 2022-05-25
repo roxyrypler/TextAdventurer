@@ -32,9 +32,14 @@ export default class InputDisplayController {
     }
 
     validateInput(value) {
+        let string;
         if (value.length === 0) return;
+        string = value;
 
-        this.parseInput(value);
+        if (string.toLowerCase() == "y") string = "yes";
+        if (string.toLowerCase() == "n") string = "no";
+
+        this.parseInput(string);
     }
 
     parseInput(value) {
@@ -57,19 +62,33 @@ export default class InputDisplayController {
                 break;
         }
 
+        let didFindCommand = false;
         // Check default commands
         for (const key in context.defaults) {
-            if (value.toLowerCase() === key) context.defaults[key]();
+            if (value.toLowerCase() === key) {
+                context.defaults[key]();
+                didFindCommand = true;
+            }
         }
 
         // Check context commands
         for (const key in context) {
-            if (value.toLowerCase() === key) context[key]();
+            if (value.toLowerCase() === key) {
+                context[key]();
+                didFindCommand = true;
+            }
         }
 
         this.display.createUserEntry({
             line: value,
             color: theme.textColor.white
         });
+
+        if (!didFindCommand) {
+            this.display.createUserEntry({
+                line: "Sorry i dident understand. help for more optionss",
+                color: theme.textColor.white
+            });
+        }
     }
 }

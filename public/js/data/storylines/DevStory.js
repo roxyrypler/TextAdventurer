@@ -95,6 +95,8 @@ let Story = {
                 }
             ],
             action: () => {
+                GameState.player.progress.step = 7;
+                index.OnAction();
                 console.log("Continue story");
             }
         },
@@ -103,6 +105,17 @@ let Story = {
             dialog: [
                 {
                     text: "Hurrayy! you won the battle!"
+                }
+            ],
+            action: () => {
+                console.log("Continue story");
+            }
+        },
+        {
+            step: 7,
+            dialog: [
+                {
+                    text: "ok lets look at the inventory"
                 }
             ],
             action: () => {

@@ -5,6 +5,7 @@ import MainMenuData from "./data/mainMenu.js";
 import commandDefaults from "./data/standardCommands.js";
 import commandContexts from "./data/commandContext.js";
 import StoryIndex from "./data/storylines/storyindex.js";
+import WorldIndex from "./data/world/worldindex.js";
 import theme from "./data/themes.js";
 import enemyIndex from "./data/enemys/enemyindex.js";
 
@@ -12,6 +13,7 @@ let inputDisplayController;
 
 let main = () => {
     SetState(GameState.states.INIT);
+    HandleLocation();
 }
 
 main();
@@ -39,11 +41,6 @@ function onInit() {
     console.log("STATE - INIT");
     inputDisplayController = new InputDisplayController();
     CommandCallbacks();
-    /*
-    GETREQ.GET("getquest", (data) => {
-        console.log(data);
-    });
-    */
 }
 
 function onMainMenu() {
@@ -160,6 +157,10 @@ function ProgressStory() {
         });
         inputDisplayController.display.handleQueue();
     }, 50);
+}
+
+function HandleLocation() {
+    console.log(WorldIndex);
 }
 
 function OnAction() {
