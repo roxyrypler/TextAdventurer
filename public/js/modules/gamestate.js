@@ -26,6 +26,9 @@ export default {
                 name: "attack",
                 damage: 15
             }
+        ],
+        inventory: [
+            
         ]
     }
 }
