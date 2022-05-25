@@ -3,7 +3,8 @@ export default {
         INIT: 0,
         MAINMENU: 1,
         PLAY: 2,
-        BATTLE: 3
+        BATTLE: 3,
+        ONYOUROWN: 4
     },
     state: null,
     player: {
@@ -17,7 +18,8 @@ export default {
             currentStoryID: 1,
             step: 1,
             locationID: 0,
-            worldID: 0
+            worldID: "DevWorld",
+            isStoryMode: true
         },
         attacks: [
             {

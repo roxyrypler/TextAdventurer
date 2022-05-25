@@ -15,10 +15,13 @@ let data = {
             text: "[1] - Start New Game"
         },
         {
-            text: "[2] - FreeBattle"
+            text: "[2] - Your on your own"
         },
         {
-            text: "[3] - Exit Game"
+            text: "[3] - FreeBattle"
+        },
+        {
+            text: "[4] - Exit Game"
         },
         {
             text: "------------------------"

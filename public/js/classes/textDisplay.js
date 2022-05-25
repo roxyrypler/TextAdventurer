@@ -22,8 +22,6 @@ export default class TextDisplay {
                 this.createUserEntry(this.Queue[0]);
                 this.Queue.splice(0, 1);
                 this.handleQueue();
-
-                ref.TextAreaBox.scrollTop = ref.TextAreaBox.scrollHeight;
             }else {
                 this.isQueueBusy = false;
                 ref.textInput.disabled = false;
@@ -40,6 +38,7 @@ export default class TextDisplay {
         p.style.color = data.color;
 
         ref.TextAreaBox.appendChild(p);
+        ref.TextAreaBox.scrollTop = ref.TextAreaBox.scrollHeight;
     }
 
     clearWindow() {

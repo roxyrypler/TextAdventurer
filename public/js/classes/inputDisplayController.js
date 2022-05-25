@@ -56,6 +56,9 @@ export default class InputDisplayController {
             case GameState.states.BATTLE:
                 context = commandContexts.playCommands; // may change to battle commands later
                 break;
+            case GameState.states.ONYOUROWN:
+                context = commandContexts.playCommands; // May change these to battle commands later
+                break;
 
             default:
                 console.log("Sorry i did not understand");

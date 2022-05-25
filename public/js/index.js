@@ -1,5 +1,5 @@
 import GameState from "./modules/gamestate.js";
-import GETREQ from "./modules/getreq.js";
+//import GETREQ from "./modules/getreq.js";
 import InputDisplayController from "./classes/inputDisplayController.js";
 import MainMenuData from "./data/mainMenu.js";
 import commandDefaults from "./data/standardCommands.js";
@@ -13,7 +13,6 @@ let inputDisplayController;
 
 let main = () => {
     SetState(GameState.states.INIT);
-    HandleLocation();
 }
 
 main();
@@ -33,6 +32,9 @@ function SetState(state) {
             break;
         case GameState.states.BATTLE:
             onBattle();
+            break;
+        case GameState.states.ONYOUROWN:
+            onOnYourOwn();
             break;
     }
 }
@@ -60,10 +62,25 @@ function onPlay() {
 
 }
 
+function onOnYourOwn() {
+    GameState.player.progress.isStoryMode = false;
+    HandleLocation();
+}
+
+function ChanceOfStartingBattle(chance) {
+    let rand = Math.floor(Math.random() * (100 - 0) + 0);
+
+    console.log(rand);
+    if (rand < chance) {
+        onBattle();
+    }
+
+}
+
 function onBattle(startedFromStory) {
     console.log("A Battle has started");
-    commandContexts.playCommands = {};
-    commandContexts.playCommands.defaults = commandDefaults.commands;
+    //commandContexts.playCommands = {};
+    //commandContexts.playCommands.defaults = commandDefaults.commands;
 
     inputDisplayController.display.clearWindow();
     inputDisplayController.display.addToQueue("Battle has started", theme.textColor.golden);
@@ -160,11 +177,38 @@ function ProgressStory() {
 }
 
 function HandleLocation() {
-    console.log(WorldIndex);
-}
+    let worldID = GameState.player.progress.worldID;
+    let locationID = GameState.player.progress.locationID;
 
-function OnAction() {
-    ProgressStory();
+    commandContexts.playCommands = {};
+    commandContexts.playCommands.defaults = commandDefaults.commands;
+
+    setTimeout(() => {
+        for (let key in WorldIndex) {
+            if (key == worldID) {
+                WorldIndex[key].forEach((i) => {
+                    if (i.location.id == locationID) {
+                        i.location.description.forEach((d) => {
+                            inputDisplayController.display.addToQueue(d.text, theme.textColor.white);
+                            if (d.choices) {
+                                if (!GameState.player.progress.isStoryMode) {
+                                    for (let key in d.choices) {
+                                        commandContexts.playCommands[`${key}`] = d.choices[key];
+                                    }
+                                }
+                            }
+                            if (d.action) {
+                                setTimeout(() => {
+                                    d.action();
+                                }, 1000);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+        inputDisplayController.display.handleQueue();
+    }, 50);
 }
 
 /* ------------------------------------ Handle option callbacks ----------------------------------------------------- */
@@ -183,6 +227,9 @@ function CommandCallbacks() {
                 context = commandContexts.playCommands
                 break;
             case GameState.states.BATTLE:
+                context = commandContexts.playCommands; // May change these to battle commands later
+                break;
+            case GameState.states.ONYOUROWN:
                 context = commandContexts.playCommands; // May change these to battle commands later
                 break;
         }
@@ -233,11 +280,17 @@ function CommandCallbacks() {
 
     commandContexts.mainMenuCommands[2] = () => {
         setTimeout(() => {
-            SetState(GameState.states.BATTLE);
+            SetState(GameState.states.ONYOUROWN);
         }, 500);
     }
 
     commandContexts.mainMenuCommands[3] = () => {
+        setTimeout(() => {
+            SetState(GameState.states.BATTLE);
+        }, 500);
+    }
+
+    commandContexts.mainMenuCommands[4] = () => {
         setTimeout(() => {
             SetState(GameState.states.MAINMENU);
         }, 500);
@@ -245,7 +298,9 @@ function CommandCallbacks() {
 }
 
 export default {
-    OnAction,
+    ProgressStory,
+    HandleLocation,
+    ChanceOfStartingBattle,
     onBattle,
     SetState
 }

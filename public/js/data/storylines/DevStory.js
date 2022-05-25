@@ -22,11 +22,11 @@ let Story = {
                     choices: {
                         yes: () => { 
                             GameState.player.progress.step = 2;
-                            index.OnAction();
+                            index.ProgressStory();
                         },
                         no: () => {
                             GameState.player.progress.step = 3;
-                            index.OnAction();
+                            index.ProgressStory();
                         }
                     }
                 }
@@ -47,11 +47,11 @@ let Story = {
                     choices: {
                         yes: () => { 
                             GameState.player.progress.step = 4;
-                            index.OnAction();
+                            index.ProgressStory();
                         },
                         no: () => {
                             GameState.player.progress.step = 5;
-                            index.OnAction();
+                            index.ProgressStory();
                         }
                     }
                 }
@@ -91,12 +91,12 @@ let Story = {
             step: 5,
             dialog: [
                 {
-                    text: "hmm i guess you have plaid before then."
+                    text: "hmm i guess you have played before then."
                 }
             ],
             action: () => {
                 GameState.player.progress.step = 7;
-                index.OnAction();
+                index.ProgressStory();
                 console.log("Continue story");
             }
         },
@@ -115,11 +115,13 @@ let Story = {
             step: 7,
             dialog: [
                 {
-                    text: "ok lets look at the inventory"
+                    text: "Lets see, where are we"
                 }
             ],
             action: () => {
-                console.log("Continue story");
+                GameState.player.progress.worldID = "DevWorld";
+                GameState.player.progress.locationID = 0;
+                index.HandleLocation();
             }
         }
     ]
