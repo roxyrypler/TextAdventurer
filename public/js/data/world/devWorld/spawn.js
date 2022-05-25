@@ -1,13 +1,4 @@
-//import road from "./roadroad.js";
-import index from "./devworldindex.js"
-
-let paths = [
-    {
-        id: 1,
-        hook: "north",
-        obj: index
-    }
-]
+import GameState from "../../../modules/gamestate.js";
 
 let location = {
     id: 0,
@@ -20,7 +11,9 @@ let location = {
         {
             text: "you stand on a crossroads, with paths leading: ",
             choices: {
-                north: null
+                north: () => {
+                    GameState.player.progress.locationID = 1;
+                }
             }
         }
     ]
