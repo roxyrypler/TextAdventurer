@@ -2,7 +2,7 @@
 var rowSize = 80;
 var colSize = 80;
 var gutter = 7;     // Spacing between tiles
-var numTiles = 0;    // Number of tiles to initially populate the grid with
+var numTiles = 16;    // Number of tiles to initially populate the grid with
 var fixedSize = true; // When true, each tile's colspan will be fixed to 1
 var oneColumn = false; // When true, grid will only have 1 column and tiles have fixed colspan of 1
 var threshold = "50%"; // This is amount of overlap between tiles needed to detect a collision

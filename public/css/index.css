@@ -104,3 +104,23 @@ body {
     width: 50%;
     height: 100%;
 }
+
+.invList {
+    width: 90%;
+    height: 80%;
+    background-color: bisque;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.item {
+    background-color: blueviolet;
+    margin: 7px;
+}
+
+.item:hover {
+    filter: blur(2px);
+    
+}
