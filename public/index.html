@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/inventory.css">
 </head>
 <body>
     <div class="mainWrapper" >
@@ -29,11 +30,26 @@
                 gets changed out to battle view when in battle
             </div>
             <div class="Right--Bottom" >
-                INVENTORY
+                <div class="inventory" >
+                    <div class="layout" hidden>
+                        <label><input id="mixed" name="layout" type="radio" value="mixed" checked="" /> Mixed Tile Size</label>
+                        <label><input id="fixed" name="layout" type="radio" value="fixed" /> Fixed Tile Size</label>
+                        <label><input id="column" name="layout" type="radio" value="column" /> Single Column</label>
+                    </div>
+                    <button id="add" hidden>ADD TILE</button>
+                    <div id="list"></div>
+                </div>
+                <div class="equipment" >
+
+                </div>
             </div>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/utils/Draggable.min.js"></script>
+    <script src="./js/vendors/inventory/inventorymovement.js" type="module" ></script>
     <script src="./js/index.js" type="module"></script>
 </body>
 </html>
