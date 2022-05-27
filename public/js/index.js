@@ -47,6 +47,8 @@ function onInit() {
     inputDisplayController = new InputDisplayController();
     inventory = new Inventory(20);
     CommandCallbacks();
+
+    inventory.addItem("GoldCoin", 10);
 }
 
 function onMainMenu() {

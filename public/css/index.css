@@ -6,6 +6,11 @@ body {
     padding: 0px;
     margin: 0px;
     overflow: hidden;
+    user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
 .mainWrapper {
@@ -106,6 +111,10 @@ body {
 
 .equipment {
     background-color: blueviolet;
+    background-image: url("../assets/placeholder/man.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
     width: 50%;
     height: 100%;
 }
@@ -117,8 +126,8 @@ body {
     margin-left: auto;
     margin-right: auto;
     display: grid;
-    grid-template-rows:  1fr 1fr 1fr 1fr 1fr ;
-    grid-template-columns:  1fr 1fr 1fr 1fr ;
+    grid-template-rows:  1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns:  1fr 1fr 1fr 1fr;
 }
 
 .item {
@@ -131,6 +140,12 @@ body {
     max-height: var(--inventorySize);
     min-width: var(--inventorySize);
     min-height: var(--inventorySize);
+
+    user-select: all; /* supported by Chrome and Opera */
+   -webkit-user-select: all; /* Safari */
+   -khtml-user-select: all; /* Konqueror HTML */
+   -moz-user-select: all; /* Firefox */
+   -ms-user-select: all; /* Internet Explorer/Edge */
 }
 
 .popup {
@@ -143,6 +158,11 @@ body {
     color: white;
     font: 16px Inconsolata, monospace;
     padding: 10px;
+    user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
 .hidden {
@@ -156,4 +176,84 @@ body {
     position: relative;
     text-align: end;
     transform: translate(-5px, 25px);
+}
+
+.headEQ {
+    width: var(--inventorySize);
+    height: var(--inventorySize);
+    background-color: rgba(73, 73, 73, 0.597);
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateY(10px);
+}
+
+.midEQ {
+    width: 100%;
+    height: 150px;
+    /*background-color: rgba(0, 255, 255, 0.517);*/
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row;
+}
+
+.hand {
+    width: var(--inventorySize);
+    height: var(--inventorySize);
+    background-color: rgba(73, 73, 73, 0.597);
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateY(100px);
+}
+
+.torso {
+    width: var(--inventorySize);
+    height: var(--inventorySize);
+    background-color: rgba(73, 73, 73, 0.597);
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateY(20px);
+}
+
+.bracers {
+    width: var(--inventorySize);
+    height: var(--inventorySize);
+    background-color: rgba(73, 73, 73, 0.597);
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateY(100px);
+}
+
+.legs {
+    width: var(--inventorySize);
+    height: var(--inventorySize);
+    background-color: rgba(73, 73, 73, 0.597);
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+}
+
+.feet {
+    width: var(--inventorySize);
+    height: var(--inventorySize);
+    background-color: rgba(73, 73, 73, 0.597);
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+}
+
+.itemOnDragged {
+    pointer-events: none;
+    z-index: 1000 !important;
+    width: var(--inventorySize);
+    height: var(--inventorySize);
+    background-color: rgb(105, 105, 105);
+    border-radius: 10px;
+    position:absolute;
+    transform:translate(-50%,-50%);
 }

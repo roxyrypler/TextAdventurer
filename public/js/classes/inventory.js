@@ -12,6 +12,7 @@ export default class Inventory {
 
     init() {
         this.renderInventory();
+        this.handItemOnDragged();
     }
 
     renderInventory() {
@@ -70,6 +71,20 @@ export default class Inventory {
             itemDiv.addEventListener("mouseleave", () => {
                 popUpDiv.className = "hidden";
             });
+
+            itemDiv.addEventListener("dragstart", () => {
+                console.log("Dragging");
+                ref.itemOnDragged.className = "itemOnDragged";
+            });
+
+            itemDiv.addEventListener("dragend", () => {
+                console.log("Dragging");
+                ref.itemOnDragged.className = "itemOnDragged hidden";
+                document.addEventListener('mousemove', function(e) {
+                    ref.itemOnDragged.style.left = e.pageX + 'px';
+                    ref.itemOnDragged.style.top = e.pageY + 'px';
+                  });
+            });
         }
 
 
@@ -81,5 +96,12 @@ export default class Inventory {
         itemDiv.appendChild(popUpDiv);
 
         this.inventoryDOM.appendChild(itemDiv);
+    }
+
+    handItemOnDragged() {
+        document.addEventListener('mousemove', function(e) {
+            ref.itemOnDragged.style.left = e.pageX + 'px';
+            ref.itemOnDragged.style.top = e.pageY + 'px';
+          });
     }
 }
