@@ -43,7 +43,6 @@ export default class InputDisplayController {
     }
 
     parseInput(value) {
-        console.log(value);
         let context = {};
 
         switch (GameState.state) {

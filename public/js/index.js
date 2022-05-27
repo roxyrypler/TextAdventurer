@@ -9,6 +9,7 @@ import WorldIndex from "./data/world/worldindex.js";
 import theme from "./data/themes.js";
 import enemyIndex from "./data/enemys/enemyindex.js";
 import Inventory from "./classes/inventory.js";
+import itemsindex from "./data/items/itemsindex.js";
 
 let inputDisplayController;
 let inventory;
@@ -46,12 +47,6 @@ function onInit() {
     inputDisplayController = new InputDisplayController();
     inventory = new Inventory(20);
     CommandCallbacks();
-
-    inventory.addItem("GoldCoin", 11);
-    inventory.addItem("GoldCoin", 11);
-    inventory.addItem("Armor1", 1);
-    inventory.addItem("Armor1", 1);
-    inventory.addItem("Armor1", 1);
 }
 
 function onMainMenu() {
@@ -79,11 +74,34 @@ function onOnYourOwn() {
 function ChanceOfStartingBattle(chance) {
     let rand = Math.floor(Math.random() * (100 - 0) + 0);
 
-    console.log(rand);
     if (rand < chance) {
         onBattle();
     }
+}
 
+function GetItem() {
+    let rand = Math.floor(Math.random() * 100);
+    let rarity = "common";
+    let raritySorts = [];
+
+    if (rand >= 90) {
+        rarity = "Legendary";
+    }else if (rand <= 89 && rand >= 70) {
+        rarity = "Epic";
+    }else if (rand <= 69 && rand >= 40) {
+        rarity = "Rare";
+    }else if (rand <= 39) {
+        rarity = "Common";
+    }
+
+    for (let item in itemsindex) {
+        if (itemsindex[item].rarity == rarity) {
+            raritySorts.push(itemsindex[item]);
+        }
+    }
+
+    let randItemFromRarity = Math.floor(Math.random() * (raritySorts.length));
+    return raritySorts[randItemFromRarity];
 }
 
 function onBattle(startedFromStory) {
@@ -110,11 +128,21 @@ function onBattle(startedFromStory) {
         } else if (creature.health <= 0) {
             console.log("You won the battle");
             inputDisplayController.display.addToQueue(`I won the battle!`, theme.textColor.golden);
-            inputDisplayController.display.handleQueue();
             clearInterval(battleInterval);
             if (startedFromStory) {
                 ProgressStory();
+            }else {
+                // Handle random rewards in free mode
+                let rand = Math.floor(Math.random() * 10);
+                for (let i = 0; i < rand; i++) {
+                    let retrivedItem = GetItem();
+                    inputDisplayController.display.addToQueue(`I got a ${retrivedItem.name}`, theme.textColor.golden);
+                    inventory.addItem(retrivedItem.name, 1);
+                }
             }
+            setTimeout(() => {
+                inputDisplayController.display.handleQueue();
+            }, 1000);
         } else {
             ProgressBattle(turnCounter % 2 == 0, creature);
             turnCounter++;

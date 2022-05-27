@@ -12,7 +12,6 @@ export default class Inventory {
 
     init() {
         this.renderInventory();
-        console.log(Gamestate);
     }
 
     renderInventory() {
@@ -52,14 +51,17 @@ export default class Inventory {
         popUpDiv.classList = "hidden";
 
         let popupHeader = document.createElement("p");
+        let popuprarity = document.createElement("p");
+        let popupprice = document.createElement("p");
 
         if (Gamestate.player.inventory[i]) {
-            console.log(Gamestate.player.inventory[i]);
             let pInv = Gamestate.player.inventory[i];
 
             itemCountText.innerHTML = pInv.count;
             itemDiv.style.backgroundImage = `url("${pInv.item.icon}")`;
-            popupHeader.innerHTML = pInv.item.name;
+            popupHeader.innerHTML = "Name: " + pInv.item.name;
+            popuprarity.innerHTML = "Rariry: " + pInv.item.rarity;
+            popupprice.innerHTML = "Price: " + pInv.item.price + "G";
 
             itemDiv.addEventListener("mouseenter", () => {
                 popUpDiv.className = "popup";
@@ -68,12 +70,13 @@ export default class Inventory {
             itemDiv.addEventListener("mouseleave", () => {
                 popUpDiv.className = "hidden";
             });
-        }else {
-            console.log("No item in inventory at this index");
         }
 
 
         popUpDiv.appendChild(popupHeader);
+        popUpDiv.appendChild(popupprice);
+        popUpDiv.appendChild(popuprarity);
+
         itemDiv.appendChild(itemCountText);
         itemDiv.appendChild(popUpDiv);
 

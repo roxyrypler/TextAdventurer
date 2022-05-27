@@ -24,7 +24,7 @@ export default {
         attacks: [
             {
                 name: "attack",
-                damage: 15
+                damage: 50
             }
         ],
         inventory: [
