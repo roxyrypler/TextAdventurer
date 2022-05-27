@@ -81,7 +81,7 @@ function ChanceOfStartingBattle(chance) {
 
 function GetItem() {
     let rand = Math.floor(Math.random() * 100);
-    let rarity = "common";
+    let rarity = "Common";
     let raritySorts = [];
 
     if (rand >= 90) {
