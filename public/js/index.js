@@ -8,8 +8,10 @@ import StoryIndex from "./data/storylines/storyindex.js";
 import WorldIndex from "./data/world/worldindex.js";
 import theme from "./data/themes.js";
 import enemyIndex from "./data/enemys/enemyindex.js";
+import Inventory from "./classes/inventory.js";
 
 let inputDisplayController;
+let inventory;
 
 let main = () => {
     SetState(GameState.states.INIT);
@@ -42,7 +44,14 @@ function SetState(state) {
 function onInit() {
     console.log("STATE - INIT");
     inputDisplayController = new InputDisplayController();
+    inventory = new Inventory(20);
     CommandCallbacks();
+
+    inventory.addItem("GoldCoin", 11);
+    inventory.addItem("GoldCoin", 11);
+    inventory.addItem("Armor1", 1);
+    inventory.addItem("Armor1", 1);
+    inventory.addItem("Armor1", 1);
 }
 
 function onMainMenu() {
@@ -302,5 +311,6 @@ export default {
     HandleLocation,
     ChanceOfStartingBattle,
     onBattle,
-    SetState
+    SetState,
+    inventoryInstance: inventory
 }

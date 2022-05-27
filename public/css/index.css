@@ -1,3 +1,7 @@
+:root {
+    --inventorySize: 70px;
+}
+
 body {
     padding: 0px;
     margin: 0px;
@@ -84,6 +88,7 @@ body {
 .Right--Top {
     width: 100%;
     height: 40%;
+    background-color: blueviolet;
 }
 
 .Right--Bottom {
@@ -94,13 +99,13 @@ body {
 }
 
 .inventory {
-    background-color: aquamarine;
+    background-color: blueviolet;
     width: 50%;
     height: 100%;
 }
 
 .equipment {
-    background-color: antiquewhite;
+    background-color: blueviolet;
     width: 50%;
     height: 100%;
 }
@@ -112,15 +117,43 @@ body {
     margin-left: auto;
     margin-right: auto;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows:  1fr 1fr 1fr 1fr 1fr ;
+    grid-template-columns:  1fr 1fr 1fr 1fr ;
 }
 
 .item {
-    background-color: blueviolet;
-    margin: 7px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: gray;
+    border-radius: 10px;
+    margin: 5px;
+    max-width: var(--inventorySize);
+    max-height: var(--inventorySize);
+    min-width: var(--inventorySize);
+    min-height: var(--inventorySize);
 }
 
-.item:hover {
-    filter: blur(2px);
-    
+.popup {
+    width: 150px;
+    height: 200px;
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+    transform: translate(0px, -280px);
+    border-radius: 10px;
+    color: white;
+    font: 16px Inconsolata, monospace;
+    padding: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.popupCountText {
+    color: white;
+    font: 16px Inconsolata, monospace;
+    width: 100%;
+    position: relative;
+    text-align: end;
+    transform: translate(-5px, 25px);
 }

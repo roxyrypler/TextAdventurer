@@ -5,5 +5,6 @@ let Get = (id) => {
 
 export default {
     TextAreaBox: Get("TextAreaBox"),
-    textInput: Get("textInput")
+    textInput: Get("textInput"),
+    invList: Get("invList")
 }
