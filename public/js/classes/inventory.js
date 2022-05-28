@@ -12,7 +12,6 @@ export default class Inventory {
 
     init() {
         this.renderInventory();
-        this.handItemOnDragged();
     }
 
     renderInventory() {
@@ -55,6 +54,19 @@ export default class Inventory {
         let popuprarity = document.createElement("p");
         let popupprice = document.createElement("p");
 
+        let interactPopUp = document.createElement("div");
+        interactPopUp.className = "interactPopUp hidden";
+
+        let interactPopUpExitButton = document.createElement("button");
+        interactPopUpExitButton.className = "interactPopUpExitButton";
+        let interactPopUpEquipButton = document.createElement("button"); // Changeable depending on usable or equipable
+        interactPopUpEquipButton.className = "interactPopUpEquipButton";
+
+        // TODO: Add sell button ?
+
+        interactPopUpExitButton.innerHTML = "X";
+        interactPopUpEquipButton.innerHTML = "Equip";
+
         if (Gamestate.player.inventory[i]) {
             let pInv = Gamestate.player.inventory[i];
 
@@ -72,18 +84,18 @@ export default class Inventory {
                 popUpDiv.className = "hidden";
             });
 
-            itemDiv.addEventListener("dragstart", () => {
-                console.log("Dragging");
-                ref.itemOnDragged.className = "itemOnDragged";
+            itemDiv.addEventListener("click", (e) => {
+                interactPopUp.className = "interactPopUp";
             });
 
-            itemDiv.addEventListener("dragend", () => {
-                console.log("Dragging");
-                ref.itemOnDragged.className = "itemOnDragged hidden";
-                document.addEventListener('mousemove', function(e) {
-                    ref.itemOnDragged.style.left = e.pageX + 'px';
-                    ref.itemOnDragged.style.top = e.pageY + 'px';
-                  });
+            interactPopUpExitButton.addEventListener("click", () => {
+                setTimeout(() => {
+                    interactPopUp.className = "interactPopUp hidden";
+                }, 25);
+            });
+
+            interactPopUpEquipButton.addEventListener("click", () => {
+                console.log("Equip os use");
             });
         }
 
@@ -92,16 +104,13 @@ export default class Inventory {
         popUpDiv.appendChild(popupprice);
         popUpDiv.appendChild(popuprarity);
 
+        interactPopUp.appendChild(interactPopUpExitButton);
+        interactPopUp.appendChild(interactPopUpEquipButton);
+
+        itemDiv.appendChild(interactPopUp);
         itemDiv.appendChild(itemCountText);
         itemDiv.appendChild(popUpDiv);
 
         this.inventoryDOM.appendChild(itemDiv);
-    }
-
-    handItemOnDragged() {
-        document.addEventListener('mousemove', function(e) {
-            ref.itemOnDragged.style.left = e.pageX + 'px';
-            ref.itemOnDragged.style.top = e.pageY + 'px';
-          });
     }
 }

@@ -140,12 +140,6 @@ body {
     max-height: var(--inventorySize);
     min-width: var(--inventorySize);
     min-height: var(--inventorySize);
-
-    user-select: all; /* supported by Chrome and Opera */
-   -webkit-user-select: all; /* Safari */
-   -khtml-user-select: all; /* Konqueror HTML */
-   -moz-user-select: all; /* Firefox */
-   -ms-user-select: all; /* Internet Explorer/Edge */
 }
 
 .popup {
@@ -158,11 +152,6 @@ body {
     color: white;
     font: 16px Inconsolata, monospace;
     padding: 10px;
-    user-select: none; /* supported by Chrome and Opera */
-   -webkit-user-select: none; /* Safari */
-   -khtml-user-select: none; /* Konqueror HTML */
-   -moz-user-select: none; /* Firefox */
-   -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
 .hidden {
@@ -176,6 +165,18 @@ body {
     position: relative;
     text-align: end;
     transform: translate(-5px, 25px);
+}
+
+.interactPopUp {
+    width: 150px;
+    height: 200px;
+    background-color: rgb(198, 198, 198);
+    position: absolute;
+    transform: translate(-180px, 0px);
+    border-radius: 10px;
+    color: white;
+    font: 16px Inconsolata, monospace;
+    padding: 10px;
 }
 
 .headEQ {
@@ -245,15 +246,4 @@ body {
     margin-left: auto;
     margin-right: auto;
     margin-top: 50px;
-}
-
-.itemOnDragged {
-    pointer-events: none;
-    z-index: 1000 !important;
-    width: var(--inventorySize);
-    height: var(--inventorySize);
-    background-color: rgb(105, 105, 105);
-    border-radius: 10px;
-    position:absolute;
-    transform:translate(-50%,-50%);
 }
